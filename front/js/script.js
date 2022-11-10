@@ -1,4 +1,4 @@
-// recuperer les données de l'API
+//----recuperer les données de l'API
 fetch("http://localhost:3000/api/products")
 
 .then((response) => response.json())
@@ -16,7 +16,7 @@ fetch("http://localhost:3000/api/products")
   });
 
 
-// affichage des articles sur la page index
+//----affichage des articles sur la page index
 function display(articlesList) {
 let newHtml = "";
 
@@ -28,7 +28,7 @@ document.getElementById("items").innerHTML = newHtml;
 }
 
 
-// code à injecter dans le html
+//----code à injecter dans le html
 function displayItems(article) {
   return  `
     <a href="./product.html?id=${article._id}">
