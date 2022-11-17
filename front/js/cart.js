@@ -62,6 +62,24 @@ function emptyCart() {
     //edition de l'element
     commentary.textContent = "Retournez voir les articles de notre collection !";
     commentary.style.textAlign = 'center';
+    //---Ajout d'un bouton de retour a la page principale
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.innerHTML = 'Voir les articles';
+    button.style.padding = "10px";
+    button.style.fontSize = "1EM";
+    button.style.color = "var(--main-color)";
+    button.style.backgroundColor = "white";
+    button.style.fontWeight = "800";
+    button.style.borderRadius = "25px";
+    titleBloc.style.textAlign = "center";
+
+    button.onclick = function() {
+        history.go(-2);
+    };
+
+    let container = document.querySelector('#cartAndFormContainer');
+    container.appendChild(button);
 }
 
 //----conditions
