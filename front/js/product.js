@@ -26,8 +26,8 @@ function getProductId () {
             return await response.json();
             }
         catch (e) {
-            console.log("Erreur lors de l'appel du serveur " + e);
-            alert("Erreur lors de l'appel du serveur " );
+            console.log("Erreur 404. L'API est injoinable" + e);
+            alert("Erreur 404. L'API est injoinable" );
         }
     };
       
