@@ -10,8 +10,7 @@ async function getProductData(id) {
         return await response.json();
         }
     catch (e) {
-        console.log("Erreur lors de l'appel du serveur " + e);
-        alert("Erreur lors de l'appel du serveur ");
+        alert("Erreur lors de l'appel du serveur " + e);
     };
 };
 
@@ -80,6 +79,9 @@ function emptyCart() {
 
     let container = document.querySelector('#cartAndFormContainer');
     container.appendChild(button);
+
+    //nettoyage du local storage
+    localStorage.clear();
 }
 
 //----conditions
