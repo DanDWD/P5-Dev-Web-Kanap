@@ -13,7 +13,6 @@ function urlOrderId () {
     }
     //si il n'y est pas
     else {
-        console.log("Erreur : l'identifiant n'est pas trouvable dans l'url");
         alert("Erreur : l'identifiant  n'est pas trouvable dans l'url");
     }
 }

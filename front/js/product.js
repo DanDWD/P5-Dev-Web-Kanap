@@ -11,7 +11,6 @@ function getProductId () {
             return id;
         }
         else {
-            console.log("Erreur : impossible de récupérer l'identifiant dans l'url");
             alert("Erreur : impossible de récupérer l'identifiant dans l'url");
         }
     }
@@ -26,8 +25,7 @@ function getProductId () {
             return await response.json();
             }
         catch (e) {
-            console.log("Erreur 404. L'API est injoinable" + e);
-            alert("Erreur 404. L'API est injoinable" );
+            alert("Erreur 404. L'API est injoinable" + e );
         }
     };
       
@@ -69,7 +67,7 @@ function getProductId () {
         }
     };
     
-    //----recuperation des articles de l'utilisateur
+    //----recuperation des infos articles
     (async function userSelection(){
         //recuperation du produit
         let productData =  await getProductData();
