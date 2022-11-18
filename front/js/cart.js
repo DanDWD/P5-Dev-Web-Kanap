@@ -264,17 +264,17 @@ class cell {
 //prenom
 let firstName = new cell('firstName',
 //definition de lexpression reguliere
-new RegExp(/^([a-zA-ZÀ-ÿ]{2,26})(-[a-zA-ZÀ-ÿ]{2,26})?(\s[a-zA-ZÀ-ÿ]{2,26})?$/, 'g')
+new RegExp(/^([a-zÀ-ÿ]{2,26})(-[a-zÀ-ÿ]{2,26})?(\s[a-zÀ-ÿ]{2,26})?$/, 'g')
 ,'firstNameErrorMsg',
-"Le prenom doit commencer par une majuscule, suivit de minuscules et contenir au moins 2 caracteres.",
+"Le prenom doit contenir au moins 2 caracteres.",
 firstNameInput);
 
 //nom
 let lastName = new cell('lastName',
 //definition de lexpression reguliere
-new RegExp(/^([a-zA-ZÀ-ÿ]{1,3}\s)?([a-zA-ZÀ-ÿ]{1,3}[']{1})?([a-zA-ZÀ-ÿ]{2,26})(\s[a-zA-ZÀ-ÿ]{2,26})?(-[a-zA-ZÀ-ÿ]{2,26})?(\s[a-zA-ZÀ-ÿ]{2,26})?$/, 'g'),
+new RegExp(/^([a-zÀ-ÿ]{1,3}\s)?([a-zÀ-ÿ]{1,3}[']{1})?([a-zÀ-ÿ]{2,26})(\s[a-zÀ-ÿ]{2,26})?(-[a-zÀ-ÿ]{2,26})?(\s[a-zÀ-ÿ]{2,26})?$/, 'g'),
 'lastNameErrorMsg',
-"Le nom doit commencer par une majuscule, suivit de minuscules et contenir au moins 2 caracteres.",
+"Le nom doit contenir au moins 2 caracteres.",
 lastNameInput);
 
 //adress
@@ -288,9 +288,9 @@ addressInput);
 //city
 let city = new cell('city',
 // definition de lexpression reguliere
-new RegExp(/^([a-zA-ZÀ-ÿ]{2,26})([-']{1}[a-zA-ZÀ-ÿ]{2,26})?(\s[a-zA-ZÀ-ÿ]{2,26})?([-']{1}[a-zA-ZÀ-ÿ]{2,26})?(\s[a-zA-ZÀ-ÿ]{2,26})?([-']{1}[a-zA-ZÀ-ÿ]{2,26})?$/, 'g'),
+new RegExp(/^([a-zÀ-ÿ]{2,26})([-']{1}[a-zÀ-ÿ]{2,26})?(\s[a-zÀ-ÿ]{2,26})?([-']{1}[a-zÀ-ÿ]{2,26})?(\s[a-zÀ-ÿ]{2,26})?([-']{1}[a-zÀ-ÿ]{2,26})?$/, 'g'),
 'cityErrorMsg',
-"La ville doit commencer par une majuscule, suivit de minuscules et contenir au moins 2 caracteres.",
+"La ville doit contenir au moins 2 caracteres.",
 cityInput);
 
 //email
