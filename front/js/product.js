@@ -25,7 +25,7 @@ function getProductId () {
             return await response.json();
             }
         catch (e) {
-            alert("Erreur 404. L'API est injoinable" + e );
+            alert("Erreur. L'API est injoinable" + e );
         }
     };
       
@@ -52,21 +52,18 @@ function getProductId () {
         //injecter le rendu dans l'html 
         document.getElementById('colors').innerHTML = colorRender;
     })();
-    
-    //----classes d'objet pour les articles selectionnes
-    class product {
-        constructor(productId,color, quantity, price, name, description, image, altTxt){
+
+  
+     //----classes d'objet pour les articles selectionnes
+     class product {
+        constructor(productId, color, quantity){
             this.productId = productId,
             this.color = color,
-            this.quantity = quantity,
-            this.price = price,
-            this.name = name,
-            this.description = description,
-            this.image = image,
-            this.altTxt = altTxt
+            this.quantity = quantity
         }
     };
-    
+
+
     //----recuperation des infos articles
     (async function userSelection(){
         //recuperation du produit
@@ -82,17 +79,13 @@ function getProductId () {
         button.addEventListener("click", (event) => {
             //prevenir toute reaction indesirable
             event.preventDefault();
-    
+
+ 
             //----creation de l'objet de recuperation de la saisie de l'utilisateur
             let selection = new product(
                 productData._id,
                 selectedColor.value,
-                Number(selectedQuantity.value), 
-                productData.price,
-                productData.name,
-                productData.description,
-                productData.imageUrl,
-                productData.altTxt
+                Number(selectedQuantity.value)
                 );
     
             //si la quantite enregistree est comprise entre 1 et 100
