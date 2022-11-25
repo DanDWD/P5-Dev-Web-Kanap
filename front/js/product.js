@@ -15,7 +15,6 @@ function getProductId () {
         }
     }
     
-    
     //----retourner les caracteristiques des articles de l'api
     async function getProductData () {
         const productId = getProductId ();
@@ -50,83 +49,72 @@ function getProductId () {
             colorRender = colorRender+htmlContentItem;
         });
         //injecter le rendu dans l'html 
-        document.getElementById('colors').innerHTML = colorRender;
+        document.getElementById("colors").innerHTML += colorRender;
+        document.getElementById("addToCart").addEventListener("click", (e) => {
+    
+            addProductToCart(data._id);
+        
+        })
     })();
 
-  
-     //----classes d'objet pour les articles selectionnes
-     class product {
-        constructor(productId, color, quantity){
-            this.productId = productId,
-            this.color = color,
-            this.quantity = quantity
+function addProductToCart(id){
+    //recuperation de la couleur  
+    const color = document.querySelector("#colors").value;
+    //recuperation de la quantité
+    const quantity = document.querySelector("#quantity").value;
+    
+    let errorMessage = "";
+
+    if(!id){
+        errorMessage += "il manque l'identifiant produit\n"
+    }
+
+    if (quantity < 1 || quantity > 100) {
+        errorMessage += "Quantité non séléctionné !\n";
+    }
+
+    if(color == ""){
+        errorMessage += "Couleur non séléctionné !\n";
+    }
+    
+    if(errorMessage !== ""){
+       alert(errorMessage);
+    }else{
+        
+        let selection = {
+            id,
+            color,
+            quantity,    
         }
-    };
+        
+         //si la quantite enregistree est comprise entre 1 et 100
+         let cart = JSON.parse(localStorage.getItem("panier"));
+    
+         //si le panier n'existe pas
+         if (cart == null) {
+             //on cree le panier pour envoyer directement
+             let cart = [selection];
+             localStorage.setItem("panier", JSON.stringify(cart));
 
+         //tester si il y a un doublon dans le tableau
+         } else if (cart.some(y =>
+             y.id === selection.id &&
+             y.color === selection.color) == true) {
+                 //on prend son index
+                 const duplicateIndex = cart.findIndex(e =>
+                     e.id === selection.id &&
+                     e.color === selection.color);
+                 //addition de la valeur initiale du panier avec la selection
+                 cart[duplicateIndex].quantity = parseFloat(cart[duplicateIndex].quantity) + parseFloat(selection.quantity);
+                 //mise a jour du panier
+                 localStorage.setItem("panier", JSON.stringify(cart));
 
-    //----recuperation des infos articles
-    (async function userSelection(){
-        //recuperation du produit
-        let productData =  await getProductData();
-        //selection du bouton AddToCart
-        const button = document.querySelector("#addToCart");
-        //selection du formulaire colors
-        const selectedColor = document.querySelector("#colors");
-        //selection de l'input Quantity
-        const selectedQuantity = document.querySelector("#quantity");
-    
-        //----ecouter le bouton ajouter au panier
-        button.addEventListener("click", (event) => {
-            //prevenir toute reaction indesirable
-            event.preventDefault();
-
- 
-            //----creation de l'objet de recuperation de la saisie de l'utilisateur
-            let selection = new product(
-                productData._id,
-                selectedColor.value,
-                Number(selectedQuantity.value)
-                );
-    
-            //si la quantite enregistree est comprise entre 1 et 100
-            if (selection.quantity >= 1 && selection.quantity <= 100) {
-                //---Envoyer dans le panier (local storage)
-                //recuperer les donnes du panier
-                let cart = JSON.parse(localStorage.getItem("panier"));
-    
-                //si le panier n'existe pas
-                if (cart == null) {
-                    //on cree le panier pour envoyer directement
-                    let cart = [selection];
-                    localStorage.setItem("panier", JSON.stringify(cart));
-    
-                //tester si il y a un doublon dans le tableau
-                } else if (cart.some(y =>
-                    y.id === selection.id &&
-                    y.color === selection.color) == true) {
-                        //on prend son index
-                        const duplicateIndex = cart.findIndex(e =>
-                            e.id === selection.id &&
-                            e.color === selection.color);
-                        //addition de la valeur initiale du panier avec la selection
-                        cart[duplicateIndex].quantity = cart[duplicateIndex].quantity + selection.quantity;
-                        //mise a jour du panier
-                        localStorage.setItem("panier", JSON.stringify(cart));
-    
-                //si l'element n'est pas dans un panier
-                } else {
-                    //envoyer directement la selection au panier
-                    cart.push(selection);
-                    localStorage.setItem("panier", JSON.stringify(cart));
-                };
-                alert(`${selection.quantity} article(s) ${selection.color} ajoute(s) dans le panier`);
-    
-            //si la quantite enregistree n'est pas comprise entre 1 et 100
-            } else {
-                //message erreur
-                alert("Veuillez indiquer une quantite entre 1 et 100");
-            }
-    
-    
-        });
-    })();
+         //si l'element n'est pas dans un panier
+         } else {
+             //envoyer directement la selection au panier
+             cart.push(selection);
+             localStorage.setItem("panier", JSON.stringify(cart));
+         };
+         alert(`${selection.quantity} article(s) ${selection.color} ajoute(s) dans le panier`);
+        }     
+}
