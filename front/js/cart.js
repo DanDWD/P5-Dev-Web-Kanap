@@ -29,7 +29,7 @@ async function totalAmount() {
             //quantite s'accumule
             quant += Number(item.quantity);
             
-            let data = await getProductData(item.productId);
+            let data = await getProductData(item.id);
             //prix X quantite
             add = item.quantity * data.price;
             //le prix s'accumule
@@ -131,9 +131,9 @@ if (JSON.parse(localStorage.getItem("panier"))) {
         };
 
         //rendu html
-        let data = await getProductData(item.productId);
+        let data = await getProductData(item.id);
         let htmlContentItem = `
-            <article class="cart__item" data-id="${item.productId}" data-color="${item.color}">
+            <article class="cart__item" data-id="${item.id}" data-color="${item.color}">
                 <div class="cart__item__img">
                     <img src="${data.imageUrl}" alt="${data.altTxt}">
                 </div>
@@ -180,7 +180,7 @@ if (JSON.parse(localStorage.getItem("panier"))) {
                 const delColor = article.dataset.color;
                 //trouver de l'index du prodduit (tableau du document)
                 //grace a l'id et de la couleur
-                const index = cart.findIndex(e => e.productId === delId && e.color === delColor);
+                const index = cart.findIndex(e => e.id === delId && e.color === delColor);
 
                 //----Modification du Local Sorage
                 //retire du tableau (document)
@@ -221,7 +221,7 @@ if (JSON.parse(localStorage.getItem("panier"))) {
 
                 //trouver de l'index du prodduit (tableau du document)
                 //grace a l'id et de la couleur
-                const index = cart.findIndex(e => e.productId === quantId && e.color === quantColor);
+                const index = cart.findIndex(e => e.id === quantId && e.color === quantColor);
 
                 //----modification du Local Sorage
                 //si la quantite enregistree est comprise entre 1 et 100
@@ -370,7 +370,7 @@ orderButton.addEventListener('click', (event) => {
         //----Recuperation des id's des produts pour creer un tableau d'id
         let products = [];
         cart.forEach(item => {
-            products.push(item.productId)
+            products.push(item.id)
         });
 
         //----requete POST sur l'API et redirection
