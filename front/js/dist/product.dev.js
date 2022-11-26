@@ -1,100 +1,148 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+//----recuperer l'id dans l'url
+function getProductId() {
+  //recuperer l'url
+  var url = new URL(window.location.href); //recuperer les parametres dans l'url
 
-//----recuperation de l'url
-var paramsUrl = new URLSearchParams(document.location.search);
-var articleId = paramsUrl.get("id"); // recuperation de l'id
-//----recuperation des differentes infos des articles dans l'api
+  var params = new URLSearchParams(url.search); //recuperation du parametre id
 
-fetch("http://localhost:3000/api/products/".concat(articleId)) //----conversion format json, renommage
-.then(function (response) {
-  return response.json();
-}).then(function (articleInfos) {
-  console.table(articleInfos);
-  displayArticleInfos(articleInfos); // appel de la fonction
-}); //----insertion des information produits dans le code 
+  if (params.has('id')) {
+    var id = params.get('id');
+    return id;
+  } else {
+    alert("Erreur : impossible de récupérer l'identifiant dans l'url");
+  }
+} //----retourner les caracteristiques des articles sur l'api
 
-function displayArticleInfos(articleInfos) {
-  document.getElementById("title").textContent = articleInfos.name;
-  document.getElementById("price").textContent = articleInfos.price;
-  document.getElementById("description").textContent = articleInfos.description;
-  document.querySelector(".item__img").innerHTML = "\n        <img src=\"".concat(articleInfos.imageUrl, "\" alt=\"").concat(articleInfos.altTxt, "\">"); //----choix des couleurs
 
-  var colors = articleInfos.colors; //----creation d'un rendu
+function getProductData() {
+  var productId, response;
+  return regeneratorRuntime.async(function getProductData$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          productId = getProductId();
+          _context.prev = 1;
+          _context.next = 4;
+          return regeneratorRuntime.awrap(fetch("http://localhost:3000/api/products/".concat(productId)));
 
-  var renderColor = "";
-  colors.forEach(function (color) {
-    var newHtml = "\n            <option value=\"".concat(color, "\">").concat(color, "</option>");
-    renderColor = renderColor + newHtml; // stocker le rendu en memoire
-  }); //----l'html est injecte dans le code
+        case 4:
+          response = _context.sent;
+          _context.next = 7;
+          return regeneratorRuntime.awrap(response.json());
 
-  document.getElementById("colors").innerHTML = renderColor;
+        case 7:
+          return _context.abrupt("return", _context.sent);
+
+        case 10:
+          _context.prev = 10;
+          _context.t0 = _context["catch"](1);
+          alert("Erreur. L'API est injoinable" + _context.t0);
+
+        case 13:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, null, null, [[1, 10]]);
 }
 
-; //----creation d'un modele qui servira pour les articles selectionnés
+; //----afficher le produit
 
-var article = function article(articleId, color, quantity) {
-  _classCallCheck(this, article);
+(function displayProducts() {
+  var data, colors, colorRender;
+  return regeneratorRuntime.async(function displayProducts$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return regeneratorRuntime.awrap(getProductData());
 
-  this.articleId = articleId;
-  this.color = color;
-  this.quantity = quantity;
-};
+        case 2:
+          data = _context2.sent;
+          document.getElementById('title').textContent = data.name;
+          document.getElementById('price').textContent = data.price;
+          document.getElementById('description').textContent = data.description;
+          document.querySelector('.item__img').innerHTML = "\n            <img src=\"".concat(data.imageUrl, "\" alt=\"").concat(data.altTxt, "\">\n        "); //choix de la couleur
 
-; //----recuperer le choix du prospect 
+          colors = data.colors; //rendu
 
-function addToCart() {
-  var articleData = displayArticleInfos(articleInfos); // article choisi
+          colorRender = '';
+          colors.forEach(function (item) {
+            var htmlContentItem = "\n                <option value=\"".concat(item, "\">").concat(item, "</option>\n            "); //placer le rendu en memoire
 
-  var button = document.querySelector("#addToCart"); // ciblage sur le bouton d'ajout
+            colorRender = colorRender + htmlContentItem;
+          }); //injecter le rendu dans l'html 
 
-  var colorSelected = document.querySelector("#colors"); // ciblage sur selection de la couleur
+          document.getElementById("colors").innerHTML += colorRender;
+          document.getElementById("addToCart").addEventListener("click", function (e) {
+            addProductToCart(data._id);
+          });
 
-  var quantitySelected = document.querySelector("#quantity"); // ciblage sur selection de la quantité
-  //----ecoute du bouton d'ajout
-
-  button.addEventListener("click", function (event) {
-    event.preventDefault(); // bloquer les evenements par defaut
-    //---Creation de l'objet de recuperation de la saisie de l'utilisateur
-
-    var selected = new product(articleData._id, colorSelected.value, Number(quantitySelected.value));
-
-    if (selected.quantity >= 1 && selected.quantity <= 100) {
-      // controle de la quantité 1=>100
-      var inCart = JSON.parse(localStorage.getItem("laSelection")); // envoi de la selection vers localstorage
-
-      if (inCart == null) {
-        // si le panier n'a pas de valeur
-        var _inCart = [selected]; // on lui en donne une
-
-        localStorage.setItem("laSelection", JSON.stringify(_inCart));
-      } else if (inCart.some(function (i) {
-        return (// verifier si l'article existe deja
-          i.id === selected.id && i.color === selected.color
-        );
-      }) == true) {
-        var duplicateId = cart.findIndex(function (e) {
-          return (// on prend son id
-            e.id === selected.id && e.color === selected.color
-          );
-        });
-        cart[duplicateId].quantity = cart[duplicateId].quantity + selected.quantity; // et on additionne les deux valeurs
-
-        localStorage.setItem("laSelection", JSON.stringify(cart)); // enfin le panier se met a jour
-      } else {
-        // si l'article est le premier de son genre
-        cart.push(selection);
-        localStorage.setItem("laSelection", JSON.stringify(cart));
+        case 12:
+        case "end":
+          return _context2.stop();
       }
-
-      ;
-    } else {
-      // enfin si la quantité est inferieur ou superieur a [1-100]
-      alert("la quantité doit être comprise entre 1 et 100."); // envoyer un message d'avertissement au client
     }
   });
-}
+})(); //----ajouter le(s) produit(s) dans le panier
 
-;
+
+function addProductToCart(id) {
+  //recuperation de la couleur  
+  var color = document.querySelector("#colors").value; //recuperation de la quantité
+
+  var quantity = document.querySelector("#quantity").value; //possibles erreurs
+
+  var errorMessage = "";
+
+  if (!id) {
+    errorMessage += "il manque l'identifiant produit\n";
+  }
+
+  if (quantity < 1 || quantity > 100) {
+    errorMessage += "Quantité non séléctionnée !\n";
+  }
+
+  if (color == "") {
+    errorMessage += "Couleur non séléctionnée !\n";
+  }
+
+  if (errorMessage !== "") {
+    alert(errorMessage);
+  } else {
+    var selection = {
+      id: id,
+      color: color,
+      quantity: quantity
+    }; //si la quantite enregistree est comprise entre 1 et 100
+
+    var cart = JSON.parse(localStorage.getItem("panier")); //si le panier n'existe pas
+
+    if (cart == null) {
+      //on cree le panier et on le stock en localstorage
+      var _cart = [selection];
+      localStorage.setItem("panier", JSON.stringify(_cart)); //tester si il y a un doublon dans le tableau
+    } else if (cart.some(function (y) {
+      return y.id === selection.id && y.color === selection.color;
+    }) == true) {
+      //on prend son index
+      var duplicateIndex = cart.findIndex(function (e) {
+        return e.id === selection.id && e.color === selection.color;
+      }); //addition de la valeur initiale du panier + la selection
+
+      cart[duplicateIndex].quantity = parseFloat(cart[duplicateIndex].quantity) + parseFloat(selection.quantity); //mise a jour du panier en ls
+
+      localStorage.setItem("panier", JSON.stringify(cart)); //si l'element n'est pas dans un panier
+    } else {
+      //envoyer directement la selection au panier
+      cart.push(selection);
+      localStorage.setItem("panier", JSON.stringify(cart));
+    }
+
+    ;
+    alert("".concat(selection.quantity, " article(s) ").concat(selection.color, " ajoute(s) dans le panier"));
+  }
+}
 //# sourceMappingURL=product.dev.js.map

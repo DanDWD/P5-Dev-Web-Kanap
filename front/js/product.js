@@ -71,11 +71,11 @@ function addProductToCart(id){
     }
 
     if (quantity < 1 || quantity > 100) {
-        errorMessage += "Quantité non séléctionné !\n";
+        errorMessage += "Quantité non séléctionnée !\n";
     }
 
     if(color == ""){
-        errorMessage += "Couleur non séléctionné !\n";
+        errorMessage += "Couleur non séléctionnée !\n";
     }
     
     if(errorMessage !== ""){
@@ -116,7 +116,7 @@ function addProductToCart(id){
              cart.push(selection);
              localStorage.setItem("panier", JSON.stringify(cart));
          };
-         
+
          alert(`${selection.quantity} article(s) ${selection.color} ajoute(s) dans le panier`);
         }     
 }
