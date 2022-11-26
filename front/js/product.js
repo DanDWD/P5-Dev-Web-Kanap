@@ -15,7 +15,7 @@ function getProductId () {
         }
     }
     
-    //----retourner les caracteristiques des articles de l'api
+    //----retourner les caracteristiques des articles sur l'api
     async function getProductData () {
         const productId = getProductId ();
         try {
@@ -37,7 +37,7 @@ function getProductId () {
         document.querySelector('.item__img').innerHTML = `
             <img src="${data.imageUrl}" alt="${data.altTxt}">
         `;
-        //choix des couleurs
+        //choix de la couleur
         let colors = data.colors;
         //rendu
         let colorRender = '';
@@ -57,12 +57,13 @@ function getProductId () {
         })
     })();
 
+//----ajouter le(s) produit(s) dans le panier
 function addProductToCart(id){
     //recuperation de la couleur  
     const color = document.querySelector("#colors").value;
     //recuperation de la quantité
     const quantity = document.querySelector("#quantity").value;
-    
+    //possibles erreurs
     let errorMessage = "";
 
     if(!id){
@@ -92,7 +93,7 @@ function addProductToCart(id){
     
          //si le panier n'existe pas
          if (cart == null) {
-             //on cree le panier pour envoyer directement
+             //on cree le panier et on le stock en localstorage
              let cart = [selection];
              localStorage.setItem("panier", JSON.stringify(cart));
 
@@ -104,9 +105,9 @@ function addProductToCart(id){
                  const duplicateIndex = cart.findIndex(e =>
                      e.id === selection.id &&
                      e.color === selection.color);
-                 //addition de la valeur initiale du panier avec la selection
+                 //addition de la valeur initiale du panier + la selection
                  cart[duplicateIndex].quantity = parseFloat(cart[duplicateIndex].quantity) + parseFloat(selection.quantity);
-                 //mise a jour du panier
+                 //mise a jour du panier en ls
                  localStorage.setItem("panier", JSON.stringify(cart));
 
          //si l'element n'est pas dans un panier
@@ -115,6 +116,7 @@ function addProductToCart(id){
              cart.push(selection);
              localStorage.setItem("panier", JSON.stringify(cart));
          };
+         
          alert(`${selection.quantity} article(s) ${selection.color} ajoute(s) dans le panier`);
         }     
 }

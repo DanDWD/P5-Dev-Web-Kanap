@@ -18,7 +18,6 @@ async function getProductData(id) {
 async function totalAmount() {
     //si le panier n'est pas vide
     if (!cart == 0) {
-        //variables
         //nombre d'articles
         let quant = 0;
         //montant total
@@ -30,7 +29,7 @@ async function totalAmount() {
             quant += Number(item.quantity);
             
             let data = await getProductData(item.id);
-            //prix X quantite
+            //calcul du total - prix x quantite
             add = item.quantity * data.price;
             //le prix s'accumule
             amount += add;
@@ -61,7 +60,7 @@ function emptyCart() {
     //edition de l'element
     commentary.textContent = "Retournez voir les articles de notre collection !";
     commentary.style.textAlign = 'center';
-    //---Ajout d'un bouton de retour a la page principale
+    //ajout d'un bouton de retour a la page principale
     const button = document.createElement('button');
     button.type = 'button';
     button.innerHTML = 'Voir les articles';
@@ -72,14 +71,13 @@ function emptyCart() {
     button.style.fontWeight = "800";
     button.style.borderRadius = "25px";
     titleBloc.style.textAlign = "center";
-
+    //----retour a la page de selection des articles
     button.onclick = function() {
         history.go(-2);
     };
 
     let container = document.querySelector('#cartAndFormContainer');
     container.appendChild(button);
-
     //nettoyage du local storage
     localStorage.clear();
 }
@@ -105,7 +103,7 @@ if (JSON.parse(localStorage.getItem("panier"))) {
     emptyCart();
 }
 
-//----affichage des produits
+//----affichage du panier
 (async function displayCart() {
     //creation du rendu
     let render = '';
@@ -163,7 +161,7 @@ if (JSON.parse(localStorage.getItem("panier"))) {
 
     //----suppression article
     (function delCartItem() {
-        //lister les bouttons de suppression
+        //lister le(s)) bouton(s) de suppression
         let delButtons = document.querySelectorAll("p.deleteItem");
 
         //supprimer l'element cible
@@ -182,7 +180,7 @@ if (JSON.parse(localStorage.getItem("panier"))) {
                 //grace a l'id et de la couleur
                 const index = cart.findIndex(e => e.id === delId && e.color === delColor);
 
-                //----Modification du Local Sorage
+                //Modification du Local Sorage
                 //retire du tableau (document)
                 cart.splice(index, 1);
                 //envoyer dans le Local Storage
@@ -203,7 +201,7 @@ if (JSON.parse(localStorage.getItem("panier"))) {
 
     //----modifier quantite
     (function modifyCartItem() {
-        //lister les input de quantite
+        //lister les inputs de quantite
         let quantButtons = document.querySelectorAll("input.itemQuantity");
 
         //----modifier l'element cible
@@ -367,13 +365,13 @@ orderButton.addEventListener('click', (event) => {
 
         console.dir(contact)
 
-        //----Recuperation des id's des produts pour creer un tableau d'id
+        //Recuperation des id's des produts pour creer un tableau d'id
         let products = [];
         cart.forEach(item => {
             products.push(item.id)
         });
 
-        //----requete POST sur l'API et redirection
+        //requete POST sur l'API et redirection
         sendOrder(contact, products);
 
         //si les valeurs du formulaire ne sont pas valides

@@ -3,7 +3,7 @@ function urlOrderId () {
     //recuperer l'url
     let url = new URL(window.location.href);
 
-    //recuperation des parametres de l'url
+    //recuperation des parametres dans l'url
     let params = new URLSearchParams(url.search);
     //recuperation de l'order
     //si il est dans l'url
@@ -13,7 +13,7 @@ function urlOrderId () {
     }
     //si il n'y est pas
     else {
-        alert("Erreur : l'identifiant  n'est pas trouvable dans l'url");
+        alert("Erreur : l'identifiant n'est pas trouvable dans l'url");
     }
 }
 
