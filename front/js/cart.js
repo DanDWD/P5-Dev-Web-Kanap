@@ -176,8 +176,8 @@ if (JSON.parse(localStorage.getItem("panier"))) {
                 //retourner l'id et color de la cible (element DOM)
                 const delId = article.dataset.id;
                 const delColor = article.dataset.color;
-                //trouver de l'index du prodduit (tableau du document)
-                //grace a l'id et de la couleur
+                //trouver l'index du prodduit (tableau du document)
+                //grace a l'id et la couleur
                 const index = cart.findIndex(e => e.id === delId && e.color === delColor);
 
                 //Modification du Local Sorage
@@ -261,7 +261,7 @@ class cell {
 
 //prenom
 let firstName = new cell('firstName',
-//definition de lexpression reguliere
+//definition de l'expression reguliere
 new RegExp("^([a-zA-Z ,.'-]{2,30})+$"),
 'firstNameErrorMsg',
 "Le prenom doit contenir au moins 2 caracteres et aucun numéro.",
@@ -269,7 +269,7 @@ firstNameInput);
 
 //nom
 let lastName = new cell('lastName',
-//definition de lexpression reguliere
+//definition de l'expression reguliere
 new RegExp("^([a-zA-Z ,.'-]{2,30})+$"),
 'lastNameErrorMsg',
 "Le nom doit contenir au moins 2 caracteres et aucun numéro.",
@@ -277,7 +277,7 @@ lastNameInput);
 
 //adress
 let address = new cell('address',
-//definition de lexpression reguliere
+//definition de l'expression reguliere
 new RegExp(/^([0-9]{1,6})\s([a-zA-ZÀ-ÿ]{2,12})(\s[a-zA-ZÀ-ÿ]{2,12})?(\s[a-zA-ZÀ-ÿ]{2,12})?\s([a-zA-ZÀ-ÿ]{2,26})(-[a-zA-ZÀ-ÿ]{2,12})?(\s[a-zA-ZÀ-ÿ]{2,12})?([-']{1}[a-zA-ZÀ-ÿ]{2,12})?(\s[a-zA-ZÀ-ÿ]{2,12})?([-']{1}[a-zA-ZÀ-ÿ]{2,12})?$/, 'g'),
 'addressErrorMsg',
 "L'adresse doit comporter un numero suivit de caracteres.",
@@ -285,7 +285,7 @@ addressInput);
 
 //city
 let city = new cell('city',
-// definition de lexpression reguliere
+// definition de l'expression reguliere
 new RegExp("^([a-zA-Z ,.'-]{2,30})+$"),
 'cityErrorMsg',
 "La ville doit contenir au moins 2 caracteres et aucun numéro.",
@@ -293,7 +293,7 @@ cityInput);
 
 //email
 let email = new cell('email',
-// definition de lexpression reguliere
+// definition de l'expression reguliere
 new RegExp(/^([a-z0-9._-]+)@([a-z0-9]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/, 'g'),
 'emailErrorMsg',
 "L'email ne doit comporter que des chiffres et des lettres minuscules, avec un @.",
