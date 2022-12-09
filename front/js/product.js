@@ -71,7 +71,7 @@ function addProductToCart(id){
     }
 
     if (quantity < 1 || quantity > 100) {
-        errorMessage += "Quantité non séléctionnée !\n";
+        errorMessage += "La quantité doit être comprise entre 1 et 100 !\n";
     }
 
     if(color == ""){
